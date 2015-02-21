@@ -1,0 +1,36 @@
+///general movements and actions
+//move-input
+right_arrow = keyboard_check(vk_right);
+left_arrow = -keyboard_check(vk_left);
+jump = keyboard_check_pressed(vk_up);
+
+
+//horizontal moving
+dir = right_arrow + left_arrow;
+if(keyboard_check_pressed(vk_rcontrol)){ //enables sprinting
+     movingspeed = 4;   
+}
+if(keyboard_check_released(vk_rcontrol)){ //disables sprinting
+    movingspeed = 2;
+}
+movement = dir * movingspeed; 
+if (!place_meeting(x+movement, y, obj_border)) x += movement; else while (!place_meeting(x+sign(movement), y, obj_border)) x += sign(movement);
+
+//jumping
+if (place_meeting(x, y+1, obj_border)){
+    hsp = jump*-15;
+}
+
+//gravity/falling
+if (hsp<15) hsp += grav;
+if (!place_meeting(x, y+hsp, obj_border)) y +=hsp; else while(!place_meeting(x, y+1, obj_border)) y+=1;
+if (place_meeting(x, y+1, obj_border)) hsp = 0;
+
+//animate
+if (dir != 0) image_xscale = dir;
+if (dir == 0) sprite_index = sp_ares_idle; else sprite_index = sp_ares_running;
+
+//spear throw
+if (keyboard_check_pressed(vk_space)) sp = 0;
+if (keyboard_check(vk_space) and sp < 3) sp += 1/40;
+if (keyboard_check_released(vk_space)) instance_create(x, y-6, obj_sp);
