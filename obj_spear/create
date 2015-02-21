@@ -1,1 +1,6 @@
-
+///initial state
+pow = obj_ares.sp+0.5;
+spd = obj_ares.image_xscale*(8+7*pow)+obj_ares.movement;
+if (spd < 0) image_xscale = -1; 
+yinit = y;
+xinit = x;
