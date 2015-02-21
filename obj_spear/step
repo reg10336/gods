@@ -1,1 +1,24 @@
+///movements/interaction with objects
+//horizontal movement
+x += spd;
 
+//vertical movement
+if (image_xscale = sign(1)) xdif = x - xinit; else xdif = -x + xinit;
+ydif = 0.0008*xdif*pow*(xdif-500*pow);
+y = yinit + ceil(ydif);
+
+//rotation
+if (image_xscale = sign(1)){
+    image_angle = -tan((ydif/xdif)-50)*180/pi;
+}else{
+    image_angle = -tan((ydif/-xdif)+50)*180/pi;
+}
+
+//collision with objects
+if (place_meeting(x,y,obj_crate)) {
+    with(obj_crate){
+        instance_destroy();
+    }
+    instance_destroy();
+}
+if (place_meeting(x,y,obj_border)) instance_destroy();
