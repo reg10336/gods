@@ -3,16 +3,13 @@
 right_arrow = keyboard_check(vk_right);
 left_arrow = -keyboard_check(vk_left);
 jump = keyboard_check_pressed(vk_up);
+attacking = keyboard_check(vk_shift);
+sprinting = keyboard_check(vk_control);
 
 
 //horizontal moving
 dir = right_arrow + left_arrow;
-if(keyboard_check_pressed(vk_rcontrol)){ //enables sprinting
-     movingspeed = 7;   
-}
-if(keyboard_check_released(vk_rcontrol)){ //disables sprinting
-    movingspeed = 4;
-}
+if(sprinting) movingspeed = 7; else movingspeed = 5;   
 movement = dir * movingspeed; 
 if (!place_meeting(x+movement, y, obj_border)) x += movement; else while (!place_meeting(x+sign(movement), y, obj_border)) x += sign(movement);
 
@@ -28,9 +25,21 @@ if (place_meeting(x, y+1, obj_border)) hsp = 0;
 
 //animate
 if (dir != 0) image_xscale = dir;
-if (dir == 0) sprite_index = sp_ares_idle; else sprite_index = sp_ares_running;
+if (dir == 0 and !attacking) sprite_index = sp_ares_idle;
+else if (dir !=0 and  !attacking) sprite_index = sp_ares_running; image_speed = 1;
 
 //spear throw
 if (keyboard_check_pressed(vk_space)) sp = 0;
 if (keyboard_check(vk_space) and sp < 1) sp += 1/30;
-if (keyboard_check_released(vk_space)) instance_create(x, y-6, obj_spear);
+if (keyboard_check_released(vk_space) and spears > 0){
+    instance_create(x, y-6, obj_spear);
+    spears -= 1;
+}
+
+//attacking
+if (attacking and dir == 0) {
+    sprite_index = sp_ares_attack;
+    image_speed = 0.5;
+}
+    
+    
