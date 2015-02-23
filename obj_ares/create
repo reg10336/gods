@@ -3,4 +3,4 @@ movingspeed = 4;
 hsp = 0;
 grav = 0.99;
 sp = 0;
-
+spears = 5;
