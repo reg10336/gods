@@ -1,0 +1,4 @@
+///initial values
+hsp = random_range(15,25)
+vsp = 2;
+image_xscale = 0.5;
