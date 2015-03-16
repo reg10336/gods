@@ -1,0 +1,10 @@
+//movements
+x -= hsp;
+y -= vsp;
+vsp -= 0.3;
+
+//rotations
+image_angle += 6; 
+
+//kill ares
+if (place_meeting(x+-hsp,y-vsp,obj_ares)) room_goto(ro_game_over);
