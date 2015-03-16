@@ -9,7 +9,10 @@ sprinting = keyboard_check(vk_control);
 
 //horizontal moving
 dir = right_arrow + left_arrow;
-if(sprinting) movingspeed = 7; else movingspeed = 5;   
+if(sprinting and stanima > 1){
+    movingspeed = 7;
+    stanima -= 0.6;
+}else movingspeed = 5;   
 movement = dir * movingspeed; 
 if (!place_meeting(x+movement, y, obj_border)) x += movement; else while (!place_meeting(x+sign(movement), y, obj_border)) x += sign(movement);
 
@@ -31,15 +34,25 @@ else if (dir !=0 and  !attacking) sprite_index = sp_ares_running; image_speed = 
 //spear throw
 if (keyboard_check_pressed(vk_space)) sp = 0;
 if (keyboard_check(vk_space) and sp < 1) sp += 1/30;
-if (keyboard_check_released(vk_space) and spears > 0){
+if (keyboard_check_released(vk_space) and spears > 0 and !instance_exists(obj_spear)){
     instance_create(x, y-6, obj_spear);
     spears -= 1;
 }
 
 //attacking
-if (attacking and dir == 0) {
+if (attacking and movement == 0 and stanima > 1) {
     sprite_index = sp_ares_attack;
     image_speed = 0.5;
+    stanima -= 0.8;
+}
+if stanima < 100 stanima += 0.2;
+
+//create hammer
+timer -= 1;
+if timer == 0{
+    instance_create(1890,random_range(50,350),obj_hammer)
+    timer += ceil(random_range(200,500));
 }
     
-    
+//end the game
+if keyboard_check(vk_escape) game_end();
